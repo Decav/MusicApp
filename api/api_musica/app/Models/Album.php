@@ -9,5 +9,5 @@ class Album extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $tabla = 'albumes';
+    protected $tabla = 'albums';
 }

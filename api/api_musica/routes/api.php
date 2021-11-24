@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtistasController;
+use App\Http\Controllers\AlbumsController;
+use App\Http\Controllers\CancionesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('artistas/get',[ArtistasController::class , 'index']);
+Route::post('artistas/post',[ArtistasController::class , 'store']);
+
+Route::get('albums/get',[AlbumsController::class , 'index']);
+
+Route::get('canciones/get',[CancionesController::class , 'index']);

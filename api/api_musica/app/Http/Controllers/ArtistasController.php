@@ -68,7 +68,7 @@ class ArtistasController extends Controller
     {
         $request->validate([
             'nombre_artista' =>['required','string','max:32','unique'],
-            'nombre_civil' => ['string','max:32'],
+            'nombre_civil' => ['string','max:32','nullable'],
             'fecha_nacimiento' => ['required','date'],
             'genero' => ['required','string', 'max:32'],
             'debut_year' => ['required','integer'],

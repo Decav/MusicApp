@@ -2,6 +2,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/provider/artistas_provider.dart';
 
 class NuevoArtistaPage extends StatefulWidget {
   NuevoArtistaPage({Key? key}) : super(key: key);
@@ -12,6 +13,13 @@ class NuevoArtistaPage extends StatefulWidget {
 
 class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
   DateTime fecha_pasaje = DateTime.now();
+  TextEditingController nombreArtCtrl = TextEditingController();
+  TextEditingController nombreRealCtrl = TextEditingController();
+  TextEditingController fecha_nacCtrl = TextEditingController();
+  TextEditingController yearCtrl = TextEditingController();
+  TextEditingController generoCtrl = TextEditingController();
+  TextEditingController biografiaCtrl = TextEditingController();
+  ArtistasProvider provider = ArtistasProvider();
 
   var formato_fecha = DateFormat('yyyy-MM-dd');
   @override
@@ -48,6 +56,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
 
   TextFormField inputNombreArtista() {
     return TextFormField(
+      controller: nombreArtCtrl,
       decoration: InputDecoration(
         hintText: 'Ingrese el nombre artistico:',
         suffixIcon: Icon(MdiIcons.account),
@@ -63,6 +72,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
 
   TextFormField inputNombreCivil() {
     return TextFormField(
+      controller: nombreRealCtrl,
       decoration: InputDecoration(
         hintText: 'Ingrese el nombre civil:',
         suffixIcon: Icon(MdiIcons.accountBox),
@@ -72,6 +82,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
 
   TextFormField inputGenero() {
     return TextFormField(
+      controller: generoCtrl,
       decoration: InputDecoration(
         hintText: 'Ingrese el género:',
         suffixIcon: Icon(MdiIcons.account),
@@ -81,6 +92,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
 
   TextFormField inputYearDebut() {
     return TextFormField(
+      controller: yearCtrl,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         hintText: 'Ingrese el año de debut:',
@@ -132,6 +144,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
 
   TextFormField inputBiografia() {
     return TextFormField(
+      controller: biografiaCtrl,
       keyboardType: TextInputType.multiline,
       maxLines: null,
       decoration: InputDecoration(
@@ -146,7 +159,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
       width: double.infinity,
       child: ElevatedButton(
         child: Text('Ingrese Nuevo Artista'),
-        style: ElevatedButton.styleFrom(primary: Color(0xFFcecece)),
+        style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
         onPressed: () {},
       ),
     );

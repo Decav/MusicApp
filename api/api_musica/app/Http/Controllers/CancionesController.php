@@ -14,7 +14,7 @@ class CancionesController extends Controller
      */
     public function index()
     {
-        //
+        return Cancion::all();
     }
 
     /**
@@ -25,7 +25,23 @@ class CancionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'nombre_cancion' =>['required','string','max:32'],
+            'fecha_lanzamiento' =>['required','integer'],
+            'cod_album' => ['required', 'integer']
+        ]);
+
+        
+
+        $cancion = new Cancion();
+        $cancion->nombre_cancion = $request->nombre_cancion;
+        $cancion->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $cancion->cod_album = $request->cod_album;
+        
+        $cancion->save();
+        return $cancion;
+
     }
 
     /**
@@ -36,7 +52,7 @@ class CancionesController extends Controller
      */
     public function show(Cancion $cancion)
     {
-        //
+        return $cancion;
     }
 
     /**
@@ -48,7 +64,18 @@ class CancionesController extends Controller
      */
     public function update(Request $request, Cancion $cancion)
     {
-        //
+        $request->validate([
+            'nombre_cancion' =>['required','string','max:32'],
+            'fecha_lanzamiento' =>['required','integer'],
+            'cod_album' => ['required', 'integer']
+        ]);
+        
+        $cancion->nombre_cancion = $request->nombre_cancion;
+        $cancion->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $cancion->cod_album = $request->cod_album;
+        
+        $cancion->save();
+        return $cancion;
     }
 
     /**
@@ -59,6 +86,6 @@ class CancionesController extends Controller
      */
     public function destroy(Cancion $cancion)
     {
-        //
+        $cancion->delete();
     }
 }
