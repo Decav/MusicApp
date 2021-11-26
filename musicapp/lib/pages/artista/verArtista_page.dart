@@ -34,9 +34,7 @@ class _VerArtistaPageState extends State<VerArtistaPage> {
                 return ListTile(
                   leading: Icon(MdiIcons.accountBox),
                   title: Text(snapshot.data[index]['nombre_artista']),
-                  subtitle: Text(snapshot.data[index]['genero'] +
-                      " | Año de debut: " +
-                      snapshot.data[index]['debut_year'].toString()),
+                  subtitle: Text(snapshot.data[index]['genero']),
                 );
               });
         },

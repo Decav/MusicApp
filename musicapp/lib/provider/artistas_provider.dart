@@ -4,11 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:musicapp/pages/artista/nuevoArtista_page.dart';
 
 class ArtistasProvider {
-  final String apiURL = 'http://127.0.0.1:8000/api';
+  final String apiURL = 'http://10.0.2.2:8000/api';
   Future<List<dynamic>> getArtistas() async {
     var uri = Uri.parse('$apiURL/artistas/get');
     var respuesta = await http.get(uri);
-
     if (respuesta.statusCode == 200) {
       return json.decode(respuesta.body);
     } else {
@@ -19,7 +18,7 @@ class ArtistasProvider {
   Future<LinkedHashMap<String, dynamic>> AgregarArtista(
       String nombre_artista,
       String nombre_civil,
-      DateTime fecha_nacimiento,
+      String fecha_nacimiento,
       String genero,
       int debut_year,
       String biografia) async {
@@ -31,13 +30,13 @@ class ArtistasProvider {
         'Accept': 'application/json'
       },
       body: jsonEncode(
-        <String, String>{
+        <String, dynamic>{
           'nombre_artista': nombre_artista,
-          'nombre_civil': nombre_civil = "",
-          'fecha_nacimiento': fecha_nacimiento.toString(),
+          'nombre_civil': nombre_civil,
+          'fecha_nacimiento': fecha_nacimiento,
           'genero': genero,
-          'debut_year': debut_year.toString(),
-          'biografia': biografia = "",
+          'debut_year': debut_year,
+          'biografia': biografia,
         },
       ),
     );

@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -22,7 +21,7 @@ class _NuevoAlbumPageState extends State<NuevoAlbumPage> {
       body: Form(
         child: Padding(
           padding: EdgeInsets.all(15.0),
-          child: Column(
+          child: ListView(
             children: [
               container(),
               inputNombreAlbum(),

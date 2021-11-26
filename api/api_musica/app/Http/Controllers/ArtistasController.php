@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artista;
+use App\Http\Requests\ArtistasRequest;
 use Illuminate\Http\Request;
 
 class ArtistasController extends Controller
@@ -23,24 +24,16 @@ class ArtistasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArtistasRequest $request)
     {
-        $request->validate([
-            'nombre_artista' =>['required','string','max:32','unique'],
-            'nombre_civil' => ['string','max:32'],
-            'fecha_nacimiento' => ['required','date'],
-            'genero' => ['required','string', 'max:32'],
-            'debut_year' => ['required','integer'],
-            'biografia' => ['string','max:256']
-
-        ]);
+        
         $artista = new Artista();
         $artista->nombre_artista = $request->nombre_artista;
         $artista->nombre_civil = $request->nombre_civil;
         $artista->fecha_nacimiento = $request->fecha_nacimiento;
         $artista->genero = $request->genero;
         $artista->debut_year = $request->debut_year;
-        $artista->biografia = $biografoa;
+        $artista->biografia = $request->biografia;
 
         $artista->save();
         return $artista;
@@ -64,24 +57,16 @@ class ArtistasController extends Controller
      * @param  \App\Models\Artista  $artista
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artista $artista)
+    public function update(ArtistasRequest $request, Artista $artista)
     {
-        $request->validate([
-            'nombre_artista' =>['required','string','max:32','unique'],
-            'nombre_civil' => ['string','max:32','nullable'],
-            'fecha_nacimiento' => ['required','date'],
-            'genero' => ['required','string', 'max:32'],
-            'debut_year' => ['required','integer'],
-            'biografia' => ['string','max:256']
-
-        ]);
+        
         
         $artista->nombre_artista = $request->nombre_artista;
         $artista->nombre_civil = $request->nombre_civil;
         $artista->fecha_nacimiento = $request->fecha_nacimiento;
         $artista->genero = $request->genero;
         $artista->debut_year = $request->debut_year;
-        $artista->biografia = $biografoa;
+        $artista->biografia = $request->$biografia;
 
         $artista->save();
         return $artista;

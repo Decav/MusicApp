@@ -21,7 +21,7 @@ class _NuevaCancionPageState extends State<NuevaCancionPage> {
       body: Form(
         child: Padding(
           padding: EdgeInsets.all(15),
-          child: Column(
+          child: ListView(
             children: [
               inputNombreCancion(),
               container(),
