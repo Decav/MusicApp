@@ -25,16 +25,11 @@ class AlbumsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre_album' =>['required','string','max:32'],
-            'fecha_lanzamiento' => ['required','integer'],
-            'genero_musical' => ['required','string','max:32'],
-            'nombre_grupo' => ['string','max:32']
-        ]);
+        
 
         $album = new Album();
         $album->nombre_album = $request->nombre_album;
-        $album->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $album->lanzamiento_year = $request->lanzamiento_year;
         $album->genero_musical = $request->genero_lanzamiento;
         $album->nombre_grupo = $request->nombre_grupo;
 
@@ -62,15 +57,16 @@ class AlbumsController extends Controller
      */
     public function update(Request $request, Album $album)
     {
+        /*
         $request->validate([
             'nombre_album' =>['required','string','max:32'],
             'fecha_lanzamiento' => ['required','integer'],
             'genero_musical' => ['required','string','max:32'],
             'nombre_grupo' => ['string','max:32']
         ]);
-
+        */
         $album->nombre_album = $request->nombre_album;
-        $album->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $album->lanzamiento_year = $request->lanzamiento_year;
         $album->genero_musical = $request->genero_lanzamiento;
         $album->nombre_grupo = $request->nombre_grupo;
 

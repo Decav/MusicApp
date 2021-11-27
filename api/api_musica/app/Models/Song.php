@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Cancion extends Model
+class Song extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $tabla = 'canciones';
+    protected $tabla = "songs";
 }

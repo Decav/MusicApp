@@ -154,7 +154,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
     return Row(
       children: [
         Text(
-          'Fecha Ingresada: ' + formato_fecha.format(fecha_nacimiento),
+          'Fecha nacimiento: ' + formato_fecha.format(fecha_nacimiento),
           style: TextStyle(fontSize: 16, color: Color(0xFF787878)),
         ),
         Spacer(),

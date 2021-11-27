@@ -26,8 +26,8 @@ class _AlbumPageState extends State<AlbumPage> {
       body: _crudPages[_indice],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.purple.shade100,
-        unselectedItemColor: Colors.indigo.shade300,
+        backgroundColor: Colors.grey.shade500,
+        unselectedItemColor: Colors.yellow.shade700,
         selectedItemColor: Colors.deepPurple,
         items: [
           BottomNavigationBarItem(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/constants.dart';
 import 'package:musicapp/provider/artistas_provider.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class VerArtistaPage extends StatefulWidget {
   VerArtistaPage({Key? key}) : super(key: key);
@@ -22,7 +24,16 @@ class _VerArtistaPageState extends State<VerArtistaPage> {
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: LiquidLinearProgressIndicator(
+                value: 0.25,
+                valueColor: AlwaysStoppedAnimation(KPrimaryColor),
+                backgroundColor: Colors.white,
+                borderColor: KPrimaryColor,
+                borderWidth: 5.0,
+                borderRadius: 12.0,
+                direction: Axis.vertical,
+                center: Text("Cargando..."),
+              ),
             );
           }
           return ListView.separated(

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/constants.dart';
+import 'package:musicapp/pages/album/botones_new_page.dart';
+import 'package:musicapp/pages/album/form_new_album_page.dart';
+import 'package:musicapp/provider/albumes_provider.dart';
+import 'package:musicapp/provider/artistas_provider.dart';
 
 class NuevoAlbumPage extends StatefulWidget {
   NuevoAlbumPage({Key? key}) : super(key: key);
@@ -10,119 +16,55 @@ class NuevoAlbumPage extends StatefulWidget {
 }
 
 class _NuevoAlbumPageState extends State<NuevoAlbumPage> {
-  DateTime fecha_pasaje = DateTime.now();
-  var formato_fecha = DateFormat('yyyy-MM-dd');
+  ArtistasProvider provider = ArtistasProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuevo Album'),
       ),
-      body: Form(
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: ListView(
-            children: [
-              container(),
-              inputNombreAlbum(),
-              container(),
-              inputGenero(),
-              container(),
-              inputNombreGrupo(),
-              container(),
-              Container(
-                height: 10,
+      body: FutureBuilder(
+        future: provider.getArtistas(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: LiquidLinearProgressIndicator(
+                value: 0.25,
+                valueColor: AlwaysStoppedAnimation(KPrimaryColor),
+                backgroundColor: Colors.white,
+                borderColor: KPrimaryColor,
+                borderWidth: 5.0,
+                borderRadius: 12.0,
+                direction: Axis.vertical,
+                center: Text("Cargando..."),
               ),
-              fecha_input(),
-              container(),
-              botonIngresar(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container container() {
-    return Container(
-      height: 20,
-    );
-  }
-
-  TextFormField inputNombreAlbum() {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Ingrese Nombre del Album:',
-        suffixIcon: Icon(MdiIcons.bookMusic),
-      ),
-    );
-  }
-
-  TextFormField inputGenero() {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Ingrese el Género musical:',
-        suffixIcon: Icon(MdiIcons.formatListBulletedType),
-      ),
-    );
-  }
-
-  Row fecha_input() {
-    return Row(
-      children: [
-        Text(
-          'Fecha de Lanzamiento: ' + formato_fecha.format(fecha_pasaje),
-          style: TextStyle(fontSize: 15, color: Color(0xFF787878)),
-        ),
-        Spacer(),
-        TextButton(
-          onPressed: () {
-            showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1500),
-              lastDate: DateTime(2030),
-            ).then((fecha) {
-              setState(() {
-                fecha_pasaje = fecha == null ? fecha_pasaje : fecha;
+            );
+          }
+          return ListView.separated(
+              separatorBuilder: (_, __) => Divider(
+                    thickness: 2.0,
+                  ),
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Icon(MdiIcons.accountBox),
+                  title: Text(snapshot.data[index]['nombre_artista']),
+                  trailing: ElevatedButton(
+                    child: Text('Seleccione el artista'),
+                    onPressed: () {
+                      MaterialPageRoute route = MaterialPageRoute(
+                        builder: (context) => BotonesNewPage(
+                          nombre_artista:
+                              snapshot.data[index]['nombre_artista'].toString(),
+                        ),
+                      );
+                      Navigator.push(context, route);
+                    },
+                  ),
+                );
               });
-            });
-          },
-          child: Row(
-            children: [
-              Text(
-                'Elija una fecha',
-                style: TextStyle(fontSize: 17, color: Color(0xFF651FFF)),
-              ),
-              Container(
-                width: 7,
-              ),
-              Icon(
-                MdiIcons.calendar,
-                color: Color(0xFF651FFF),
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  TextFormField inputNombreGrupo() {
-    return TextFormField(
-      decoration: InputDecoration(
-          hintText: 'Ingrese el nombre del grupo musical(opcional):',
-          suffixIcon: Icon(MdiIcons.accountGroup)),
-    );
-  }
-
-  Widget botonIngresar() {
-    return Container(
-      width: 400,
-      child: ElevatedButton(
-        child: Text('Agregue Nuevo Album'),
-        style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
-        onPressed: () {},
+        },
       ),
     );
   }

@@ -14,4 +14,5 @@ class Artista extends Model
     protected $primaryKey = 'nombre_artista';
     public $incrementing = false;
     protected $keyType = 'string';
+
 }

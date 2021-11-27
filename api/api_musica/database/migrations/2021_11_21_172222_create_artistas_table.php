@@ -14,7 +14,7 @@ class CreateArtistasTable extends Migration
     public function up()
     {
         Schema::create('artistas', function (Blueprint $table) {
-            $table->string("nombre_artista")->required();
+            $table->string("nombre_artista")->required()->primary();
             $table->string('nombre_civil')->nullable();
             $table->string('fecha_nacimiento');
             $table->string('genero');
