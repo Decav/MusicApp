@@ -21,9 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('artistas/get',[ArtistasController::class , 'index']);
-Route::post('artistas/post',[ArtistasController::class , 'store']);
+//Route::get('/artistas',[ArtistasController::class , 'index']);
+//Route::get('/artistas/{artistas}',[ArtistasController::class , 'show']);
+//Route::post('/artistas',[ArtistasController::class , 'store']);
+//Route::delete('/artistas/{artistas}',[ArtistasController::class , 'destroy']);
 
-Route::get('albums/get',[AlbumsController::class , 'index']);
+//Route::get('albums/get',[AlbumsController::class , 'index']);
 
-Route::get('canciones/get',[CancionesController::class , 'index']);
+//Route::get('canciones/get',[CancionesController::class , 'index']);
+
+Route::apiResource('/artistas',ArtistasController::class);

@@ -56,8 +56,8 @@ class _NuevaCancionPageState extends State<NuevaCancionPage> {
     return Row(
       children: [
         Text(
-          'Ingrese Fecha de lanzamiento: ' + formato_fecha.format(fecha_pasaje),
-          style: TextStyle(fontSize: 16, color: Color(0xFF787878)),
+          'Fecha de lanzamiento: ' + formato_fecha.format(fecha_pasaje),
+          style: TextStyle(fontSize: 15, color: Color(0xFF787878)),
         ),
         Spacer(),
         TextButton(

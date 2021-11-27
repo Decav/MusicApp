@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/pages/artista/modificarArtista_page.dart';
 import 'package:musicapp/provider/artistas_provider.dart';
 
-class NuevoArtistaPage extends StatefulWidget {
-  NuevoArtistaPage({Key? key}) : super(key: key);
+class FormModificarPage extends StatefulWidget {
+  String nombre_artista;
+  String nombre_civil;
+  String genero;
+  String fecha_nacimiento;
+  int year_debut;
+  String biografia;
+  FormModificarPage(
+      {Key? key,
+      this.nombre_artista = "",
+      this.nombre_civil = "",
+      this.genero = "",
+      this.fecha_nacimiento = "",
+      this.year_debut = 0,
+      this.biografia = ""})
+      : super(key: key);
 
   @override
-  _NuevoArtistaPageState createState() => _NuevoArtistaPageState();
+  _FormModificarPageState createState() => _FormModificarPageState();
 }
 
-class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
+class _FormModificarPageState extends State<FormModificarPage> {
+  var formato_fecha = DateFormat('yyyy-MM-dd');
   DateTime fecha_nacimiento = DateTime.now();
   TextEditingController nombreArtCtrl = TextEditingController();
   TextEditingController nombreRealCtrl = TextEditingController();
@@ -25,13 +40,25 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
   String textErrorGenero = "";
   String textErrorYear = "";
   String textErrorBiografia = "";
+  var fecha_string = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nombreArtCtrl.text = widget.nombre_artista;
+    nombreRealCtrl.text =
+        widget.nombre_civil == "null" ? "" : widget.nombre_civil;
+    generoCtrl.text = widget.genero;
+    yearCtrl.text = widget.year_debut.toString();
+    fecha_string = widget.fecha_nacimiento;
+    biografiaCtrl.text = widget.biografia == "null" ? "" : widget.biografia;
+  }
 
-  var formato_fecha = DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nuevo Artista'),
+        title: Text('Artista a Actualizar'),
       ),
       body: Form(
         child: Padding(
@@ -63,6 +90,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
     return Column(
       children: [
         TextFormField(
+          enabled: false,
           controller: nombreArtCtrl,
           decoration: InputDecoration(
             hintText: 'Ingrese el nombre artistico:',
@@ -154,7 +182,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
     return Row(
       children: [
         Text(
-          'Fecha Ingresada: ' + formato_fecha.format(fecha_nacimiento),
+          'Fecha Ingresada: ' + fecha_string,
           style: TextStyle(fontSize: 16, color: Color(0xFF787878)),
         ),
         Spacer(),
@@ -168,6 +196,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
             ).then((fecha) {
               setState(() {
                 fecha_nacimiento = fecha == null ? fecha_nacimiento : fecha;
+                fecha_string = formato_fecha.format(fecha_nacimiento);
               });
             });
           },
@@ -218,22 +247,22 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
     return Container(
       width: double.infinity,
       child: ElevatedButton(
-        child: Text('Ingrese Nuevo Artista'),
+        child: Text('Actualizar datos del artista'),
         style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
         onPressed: () async {
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
           } else {
-            var resp = await provider.AgregarArtista(
+            var resp = await provider.ActualizarArtista(
                 nombreArtCtrl.text,
                 nombreRealCtrl.text,
                 formato_fecha.format(fecha_nacimiento),
                 generoCtrl.text,
                 yearCtrl.text == "" ? 0 : int.parse(yearCtrl.text),
                 biografiaCtrl.text);
-
+            print(resp);
             if (resp['message'] != null) {
-              textErrorNombre = resp['errors']['nombre_artista'] == null
+              /*textErrorNombre = resp['errors']['nombre_artista'] == null
                   ? ""
                   : resp['errors']['nombre_artista'].toString();
               textErrorNombreC = resp['errors']['nombre_civil'] == null
@@ -244,7 +273,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
                   : resp['errors']['genero'].toString();
               textErrorYear = resp['errors']['debut_year'] == null
                   ? ""
-                  : resp['errors']['debut_year'].toString();
+                  : resp['errors']['debut_year'].toString();*/
             } else {
               textErrorNombre = "";
               textErrorNombreC = "";

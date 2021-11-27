@@ -46,7 +46,8 @@ class ArtistasController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Artista $artista)
-    {
+    {   
+        
         return $artista;
     }
 
@@ -57,16 +58,15 @@ class ArtistasController extends Controller
      * @param  \App\Models\Artista  $artista
      * @return \Illuminate\Http\Response
      */
-    public function update(ArtistasRequest $request, Artista $artista)
+    public function update(Request $request, Artista $artista)
     {
         
-        
-        $artista->nombre_artista = $request->nombre_artista;
+        //$artista->nombre_artista = $request->nombre_artista;
         $artista->nombre_civil = $request->nombre_civil;
         $artista->fecha_nacimiento = $request->fecha_nacimiento;
         $artista->genero = $request->genero;
         $artista->debut_year = $request->debut_year;
-        $artista->biografia = $request->$biografia;
+        $artista->biografia = $request->biografia;
 
         $artista->save();
         return $artista;
@@ -81,5 +81,6 @@ class ArtistasController extends Controller
     public function destroy(Artista $artista)
     {
         $artista->delete();
+        
     }
 }
