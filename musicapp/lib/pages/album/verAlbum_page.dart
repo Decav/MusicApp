@@ -48,7 +48,9 @@ class _VerAlbumPageState extends State<VerAlbumPage> {
                   subtitle: Text(
                       snapshot.data[index]['lanzamiento_year'].toString() +
                           "   " +
-                          snapshot.data[index]['genero_musical']),
+                          snapshot.data[index]['genero_musical'] +
+                          "   " +
+                          snapshot.data[index]['nombre_grupo']),
                 );
               });
         },

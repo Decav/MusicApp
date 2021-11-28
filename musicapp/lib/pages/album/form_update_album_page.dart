@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicapp/constants.dart';
 import 'package:musicapp/provider/albumes_provider.dart';
 import 'package:musicapp/provider/artistas_provider.dart';
 
-class FormNewAlbumPage extends StatefulWidget {
-  String nombre_artista;
-  FormNewAlbumPage({Key? key, this.nombre_artista = ""}) : super(key: key);
+class FormUpdateAlbumPage extends StatefulWidget {
+  int id_album;
+  String nombre_album;
+  int lanzamiento_year;
+  String genero;
+  String nombre_grupo;
+  FormUpdateAlbumPage(
+      {Key? key,
+      this.id_album = 0,
+      this.nombre_album = "",
+      this.lanzamiento_year = 0,
+      this.genero = "",
+      this.nombre_grupo = ""})
+      : super(key: key);
 
   @override
-  _FormNewAlbumPageState createState() => _FormNewAlbumPageState();
+  _FormUpdateAlbumPageState createState() => _FormUpdateAlbumPageState();
 }
 
-class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
+class _FormUpdateAlbumPageState extends State<FormUpdateAlbumPage> {
+  AlbumsProvider provider = AlbumsProvider();
+  int id_album = 0;
   TextEditingController nombreAlbumCtrl = TextEditingController();
   TextEditingController yearCtrl = TextEditingController();
   TextEditingController generoCtrl = TextEditingController();
   TextEditingController nombreGrupoCtrl = TextEditingController();
-  ArtistasProvider artistas_provider = ArtistasProvider();
-  AlbumsProvider albums_provider = AlbumsProvider();
   String textErrorNombreAlbum = "";
   String textErrorGenero = "";
   String textErrorYear = "";
@@ -27,17 +37,20 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
   String nombre_artista = "";
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    nombre_artista = widget.nombre_artista;
+    id_album = widget.id_album;
+    nombreAlbumCtrl.text = widget.nombre_album;
+    yearCtrl.text = widget.lanzamiento_year.toString();
+    generoCtrl.text = widget.genero;
+    nombreGrupoCtrl.text = widget.nombre_grupo;
   }
 
-  //DateTime fecha_pasaje = DateTime.now();
-  //var formato_fecha = DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nuevo Album'),
+        title: Text('Actualiza el album'),
       ),
       body: Form(
         child: Padding(
@@ -155,19 +168,18 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
     return Container(
       width: 400,
       child: ElevatedButton(
-        child: Text('Agregue Nuevo Album'),
+        child: Text('Actualice Album'),
         style: ElevatedButton.styleFrom(primary: KPrimaryColor),
         onPressed: () async {
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
           } else {
-            var resp = await albums_provider.agregarAlbum(
+            var resp = await provider.actualizarAlbum(
+                id_album,
                 nombreAlbumCtrl.text,
-                int.parse(yearCtrl.text),
-                generoCtrl.text,
                 nombreGrupoCtrl.text,
-                nombre_artista);
-            print(generoCtrl.text);
+                int.parse(yearCtrl.text),
+                generoCtrl.text);
             if (resp['message'] != null) {
               textErrorNombreAlbum = resp['errors']['nombre_album'].toString();
               textErrorYear = resp['errors']['lanzamiento_year'].toString();

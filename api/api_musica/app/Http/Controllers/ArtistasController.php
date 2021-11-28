@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artista;
+use App\Models\AlbumArtista;
 use App\Http\Requests\ArtistasRequest;
 use Illuminate\Http\Request;
 
@@ -80,6 +81,8 @@ class ArtistasController extends Controller
      */
     public function destroy(Artista $artista)
     {
+        AlbumArtista::where("nombre_artista",$artista->nombre_artista)->delete();
+
         $artista->delete();
         
     }

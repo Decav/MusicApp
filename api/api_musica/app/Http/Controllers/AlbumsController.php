@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\AlbumArtista;
+use App\Http\Requests\AlbumsRequest;
 use Illuminate\Http\Request;
 
 class AlbumsController extends Controller
@@ -23,17 +25,19 @@ class AlbumsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlbumsRequest $request)
     {
-        
-
         $album = new Album();
         $album->nombre_album = $request->nombre_album;
         $album->lanzamiento_year = $request->lanzamiento_year;
-        $album->genero_musical = $request->genero_lanzamiento;
+        $album->genero_musical = $request->genero_musical;
         $album->nombre_grupo = $request->nombre_grupo;
-
         $album->save();
+
+        $interseccion = new AlbumArtista();
+        $interseccion->nombre_artista = $request->nombre_artista;
+        $interseccion->cod_album = $album->id;
+        $interseccion->save();
         return $album;
     }
 
@@ -55,7 +59,7 @@ class AlbumsController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(AlbumsRequest $request, Album $album)
     {
         /*
         $request->validate([
@@ -67,7 +71,7 @@ class AlbumsController extends Controller
         */
         $album->nombre_album = $request->nombre_album;
         $album->lanzamiento_year = $request->lanzamiento_year;
-        $album->genero_musical = $request->genero_lanzamiento;
+        $album->genero_musical = $request->genero_musical;
         $album->nombre_grupo = $request->nombre_grupo;
 
         $album->save();
@@ -82,6 +86,7 @@ class AlbumsController extends Controller
      */
     public function destroy(Album $album)
     {
+        AlbumArtista::where("cod_album",$album->id)->delete();
         $album->delete();
     }
 }

@@ -57,8 +57,13 @@ class _SeleccionarAlbumPageState extends State<SeleccionarAlbumPage> {
                     subtitle: Text(
                         snapshot.data[index]['lanzamiento_year'].toString() +
                             "   " +
-                            snapshot.data[index]['genero_musical']),
-                    onTap: () {},
+                            snapshot.data[index]['genero_musical'] +
+                            "   " +
+                            snapshot.data[index]['nombre_grupo']),
+                    onTap: () async {
+                      var resp = await provider.crearRelacion(
+                          nombre_artista, snapshot.data[index]['id']);
+                    },
                   );
                 });
           }

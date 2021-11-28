@@ -10,9 +10,11 @@ class Artista extends Model
     use HasFactory,SoftDeletes;
 
     protected $tabla = 'artistas';
-    public $timestamps = false;
     protected $primaryKey = 'nombre_artista';
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public function album_artista(){
+        return $this->hasMany(AlbumArtista::class);
+    }
 }

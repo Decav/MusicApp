@@ -33,7 +33,7 @@ class AlbumsRequest extends FormRequest
     }
     public function messages(){
         return [
-            'nombre_album.required' => 'Debe ingresar el nombre del artista',
+            'nombre_album.required' => 'Debe ingresar el nombre del album',
             'nombre_album.max'=> 'El nombre no puede exceder los 32 caracteres',
             'genero_musical.required' => 'Debe ingresar el genero musical',
             'genero_musical.max'=> 'El campo genero musical no puede exceder los 32 caracteres',
