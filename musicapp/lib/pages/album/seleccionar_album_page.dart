@@ -53,8 +53,12 @@ class _SeleccionarAlbumPageState extends State<SeleccionarAlbumPage> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Icon(MdiIcons.accountBox),
-                    title: Text(''),
-                    subtitle: Text(""),
+                    title: Text(snapshot.data[index]['nombre_album']),
+                    subtitle: Text(
+                        snapshot.data[index]['lanzamiento_year'].toString() +
+                            "   " +
+                            snapshot.data[index]['genero_musical']),
+                    onTap: () {},
                   );
                 });
           }
