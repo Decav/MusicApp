@@ -43,7 +43,8 @@ class _FormUpdateAlbumPageState extends State<FormUpdateAlbumPage> {
     nombreAlbumCtrl.text = widget.nombre_album;
     yearCtrl.text = widget.lanzamiento_year.toString();
     generoCtrl.text = widget.genero;
-    nombreGrupoCtrl.text = widget.nombre_grupo;
+    nombreGrupoCtrl.text =
+        widget.nombre_grupo == "null" ? "" : widget.nombre_grupo;
   }
 
   @override
@@ -181,9 +182,15 @@ class _FormUpdateAlbumPageState extends State<FormUpdateAlbumPage> {
                 int.parse(yearCtrl.text),
                 generoCtrl.text);
             if (resp['message'] != null) {
-              textErrorNombreAlbum = resp['errors']['nombre_album'].toString();
-              textErrorYear = resp['errors']['lanzamiento_year'].toString();
-              textErrorGenero = resp['errors']['genero_musical'].toString();
+              textErrorNombreAlbum = resp['errors']['nombre_album'] == null
+                  ? ""
+                  : resp['errors']['nombre_album'][0].toString();
+              textErrorYear = resp['errors']['lanzamiento_year'] == null
+                  ? ""
+                  : resp['errors']['lanzamiento_year'][0].toString();
+              textErrorGenero = resp['errors']['genero_musical'] == null
+                  ? ""
+                  : resp['errors']['genero_musical'][0].toString();
             } else {
               textErrorNombreAlbum = "";
               textErrorNombreGrupo = "";

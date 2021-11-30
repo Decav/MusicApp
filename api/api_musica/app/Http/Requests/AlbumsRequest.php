@@ -27,7 +27,7 @@ class AlbumsRequest extends FormRequest
             'nombre_album' => 'required|max:32',
             'lanzamiento_year' => 'required|integer',
             'genero_musical' => 'required|max:32',
-
+            'nombre_grupo' => 'max:32'
             
         ];
     }
@@ -38,7 +38,8 @@ class AlbumsRequest extends FormRequest
             'genero_musical.required' => 'Debe ingresar el genero musical',
             'genero_musical.max'=> 'El campo genero musical no puede exceder los 32 caracteres',
             'lanzamiento_year.required' => 'Debe ingresar el año de lanzamiento',
-            'lanzamiento_year.integer' => 'El año ingresado debe ser de tipo numerico'
+            'lanzamiento_year.integer' => 'El año ingresado debe ser de tipo numerico',
+            'nombre_grupo.max' => 'El nombre del grupo no puede exceder los 32 caracteres'
         ];
     }
 }

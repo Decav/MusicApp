@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/constants.dart';
 import 'package:musicapp/pages/artista/modificarArtista_page.dart';
 import 'package:musicapp/provider/artistas_provider.dart';
 
@@ -39,6 +40,7 @@ class _FormModificarPageState extends State<FormModificarPage> {
   String textErrorNombreC = "";
   String textErrorGenero = "";
   String textErrorYear = "";
+  String textErrorFecha = "";
   String textErrorBiografia = "";
   var fecha_string = "";
   @override
@@ -250,21 +252,26 @@ class _FormModificarPageState extends State<FormModificarPage> {
         child: Text('Actualizar datos del artista'),
         style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
         onPressed: () async {
+          var errores = [];
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
+            errores.add('error');
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
-          } else {
+          }
+          if (generoCtrl.text == "") {
+            errores.add('error');
+            textErrorGenero = "Debe ingresar el genero";
+          }
+
+          if (errores.length == 0) {
             var resp = await provider.ActualizarArtista(
                 nombreArtCtrl.text,
                 nombreRealCtrl.text,
-                formato_fecha.format(fecha_nacimiento),
+                fecha_string,
                 generoCtrl.text,
                 yearCtrl.text == "" ? 0 : int.parse(yearCtrl.text),
                 biografiaCtrl.text);
-            print(resp);
             if (resp['message'] != null) {
-              /*textErrorNombre = resp['errors']['nombre_artista'] == null
-                  ? ""
-                  : resp['errors']['nombre_artista'].toString();
+              /*
               textErrorNombreC = resp['errors']['nombre_civil'] == null
                   ? ""
                   : resp['errors']['nombre_civil'].toString();
@@ -273,17 +280,37 @@ class _FormModificarPageState extends State<FormModificarPage> {
                   : resp['errors']['genero'].toString();
               textErrorYear = resp['errors']['debut_year'] == null
                   ? ""
-                  : resp['errors']['debut_year'].toString();*/
+                  : resp['errors']['debut_year'].toString();
+              */
             } else {
               textErrorNombre = "";
               textErrorNombreC = "";
               textErrorGenero = "";
               textErrorYear = "";
+              if (resp.length != 0) {
+                showSnackbar(
+                    "Se ha actualizado el artista " + nombreArtCtrl.text);
+                Navigator.pop(context);
+              }
             }
           }
 
           setState(() {});
         },
+      ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

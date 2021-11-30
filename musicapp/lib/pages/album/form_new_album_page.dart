@@ -169,19 +169,50 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
                 nombre_artista);
             print(generoCtrl.text);
             if (resp['message'] != null) {
-              textErrorNombreAlbum = resp['errors']['nombre_album'].toString();
-              textErrorYear = resp['errors']['lanzamiento_year'].toString();
-              textErrorGenero = resp['errors']['genero_musical'].toString();
+              textErrorNombreAlbum = resp['errors']['nombre_album'] == null
+                  ? ""
+                  : resp['errors']['nombre_album'][0].toString();
+              textErrorYear = resp['errors']['lanzamiento_year'] == null
+                  ? ""
+                  : resp['errors']['lanzamiento_year'][0].toString();
+              textErrorNombreGrupo = resp['errors']['nombre_grupo'] == null
+                  ? ""
+                  : resp['errors']['nombre_grupo'][0].toString();
+              textErrorGenero = resp['errors']['genero_musical'] == null
+                  ? ""
+                  : resp['errors']['genero_musical'][0].toString();
             } else {
               textErrorNombreAlbum = "";
               textErrorNombreGrupo = "";
               textErrorGenero = "";
               textErrorYear = "";
+              if (resp.length != 0) {
+                showSnackbar('Album Creado con exito');
+                nombreAlbumCtrl.text = "";
+                yearCtrl.text = "";
+                generoCtrl.text = "";
+                nombreGrupoCtrl.text = "";
+                nombre_artista = "";
+              }
             }
           }
 
           setState(() {});
         },
+      ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

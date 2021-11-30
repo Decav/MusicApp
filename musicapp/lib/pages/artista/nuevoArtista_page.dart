@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:musicapp/constants.dart';
 import 'package:musicapp/provider/artistas_provider.dart';
 
 class NuevoArtistaPage extends StatefulWidget {
@@ -250,11 +251,35 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
               textErrorNombreC = "";
               textErrorGenero = "";
               textErrorYear = "";
+              if (resp.length != 0) {
+                showSnackbar(
+                    'Se ha creado con exito el artista ' + nombreArtCtrl.text);
+                nombreArtCtrl.text = "";
+                nombreRealCtrl.text = "";
+                generoCtrl.text = "";
+                yearCtrl.text = "";
+                biografiaCtrl.text = "";
+                fecha_nacimiento = DateTime.now();
+              }
             }
           }
 
           setState(() {});
         },
+      ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

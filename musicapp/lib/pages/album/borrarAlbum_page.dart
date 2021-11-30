@@ -50,9 +50,23 @@ class _BorrarAlbumPageState extends State<BorrarAlbumPage> {
                   trailing: ElevatedButton(
                     child: Text('Eliminar'),
                     onPressed: () {
-                      int id_album = snapshot.data[index]['id'];
-                      setState(() {
-                        provider.eliminarAlbum(id_album);
+                      confirmDialog(
+                              context, snapshot.data[index]['nombre_album'])
+                          .then((respuestaConfirm) {
+                        if (respuestaConfirm) {
+                          int id_album = snapshot.data[index]['id'];
+                          setState(() {
+                            provider
+                                .eliminarAlbum(id_album)
+                                .then((borradoExitoso) {
+                              if (borradoExitoso) {
+                                showSnackbar('Borrado de Album Exitoso');
+                              } else {
+                                showSnackbar('Algo salió mal');
+                              }
+                            });
+                          });
+                        }
                       });
                     },
                   ),
@@ -60,6 +74,43 @@ class _BorrarAlbumPageState extends State<BorrarAlbumPage> {
               });
         },
       ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  Future<dynamic> confirmDialog(BuildContext context, String _nombre) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirmar borrado del Album'),
+          content: Text('¿Desea borrar $_nombre de la tabla Albumes?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('CANCELAR'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('ACEPTAR'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -50,21 +50,85 @@ class _BorrarArtistaState extends State<BorrarArtista> {
                   trailing: ElevatedButton(
                     child: Text('Eliminar'),
                     onPressed: () {
+                      confirmDialog(
+                              context, snapshot.data[index]['nombre_artista'])
+                          .then((respuestaConfirm) {
+                        if (respuestaConfirm) {
+                          var nombre = snapshot.data[index]['nombre_artista']
+                              .toString()
+                              .trim();
+                          print(nombre);
+                          setState(() {
+                            provider
+                                .eliminarArtista(nombre)
+                                .then((borradoExitoso) {
+                              if (borradoExitoso) {
+                                showSnackbar('Se ha borrado con Exito');
+                              } else {
+                                showSnackbar('Algo salió mal');
+                              }
+                            });
+                          });
+                        }
+                      });
+                      /*
                       var nombre = snapshot.data[index]['nombre_artista']
                           .toString()
                           .trim();
                       print(nombre);
                       setState(() {
                         provider.eliminarArtista(nombre).then((borradoExitoso) {
-                          print(borradoExitoso);
+                          if (borradoExitoso) {
+                            showSnackbar('Se ha borrado con Exito', MdiIcons.);
+                          }
+                          else{
+                            showSnackbar('Algo salió mal');
+                          }
                         });
-                      });
+                      });*/
                     },
                   ),
                 );
               });
         },
       ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  Future<dynamic> confirmDialog(BuildContext context, String _nombre) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirmar borrado del Artista'),
+          content: Text('¿Desea borrar $_nombre de la tabla Artistas?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('CANCELAR'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('ACEPTAR'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

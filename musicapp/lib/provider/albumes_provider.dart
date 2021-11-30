@@ -61,10 +61,10 @@ class AlbumsProvider {
     return json.decode(respuesta.body);
   }
 
-  Future<int> eliminarAlbum(int id) async {
+  Future<bool> eliminarAlbum(int id) async {
     var uri = Uri.parse('$apiURL/albums/$id');
     var respuesta = await http.delete(uri);
-    return respuesta.statusCode;
+    return respuesta.statusCode == 200;
   }
 
   Future<LinkedHashMap<String, dynamic>> actualizarAlbum(

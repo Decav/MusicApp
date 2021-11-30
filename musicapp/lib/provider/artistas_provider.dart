@@ -43,10 +43,10 @@ class ArtistasProvider {
     return json.decode(respuesta.body);
   }
 
-  Future<int> eliminarArtista(String nombre) async {
+  Future<bool> eliminarArtista(String nombre) async {
     var uri = Uri.parse('$apiURL/artistas/$nombre');
     var respuesta = await http.delete(uri);
-    return respuesta.statusCode;
+    return respuesta.statusCode == 200;
   }
 
   Future<LinkedHashMap<String, dynamic>> getArtistaNombre(String nombre) async {
