@@ -9,7 +9,7 @@ class AlbumArtista extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $tabla = 'album_artistas';
+    protected $table = 'album_artistas';
 
     public function album(){
         return $this->belongsTo(Album::class);

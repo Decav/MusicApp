@@ -158,8 +158,14 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
         child: Text('Agregue Nuevo Album'),
         style: ElevatedButton.styleFrom(primary: KPrimaryColor),
         onPressed: () async {
+          var yearr = DateTime.now().year;
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
+          } else if (yearr < int.parse(yearCtrl.text) - 1) {
+            textErrorYear =
+                "El año de lanzamiento debe ser menor que el año actual";
+          } else if (1300 > int.parse(yearCtrl.text)) {
+            textErrorYear = "El año no puede ser menor a 1300";
           } else {
             var resp = await albums_provider.agregarAlbum(
                 nombreAlbumCtrl.text,
@@ -167,7 +173,6 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
                 generoCtrl.text,
                 nombreGrupoCtrl.text,
                 nombre_artista);
-            print(generoCtrl.text);
             if (resp['message'] != null) {
               textErrorNombreAlbum = resp['errors']['nombre_album'] == null
                   ? ""
@@ -193,6 +198,7 @@ class _FormNewAlbumPageState extends State<FormNewAlbumPage> {
                 generoCtrl.text = "";
                 nombreGrupoCtrl.text = "";
                 nombre_artista = "";
+                Navigator.pop(context);
               }
             }
           }

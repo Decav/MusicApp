@@ -14,6 +14,12 @@ class AlbumsProvider {
     }
   }
 
+  Future<LinkedHashMap<String, dynamic>> getAlbum(int id) async {
+    var uri = Uri.parse('$apiURL/albums/$id');
+    var respuesta = await http.get(uri);
+    return json.decode(respuesta.body);
+  }
+
   Future<LinkedHashMap<String, dynamic>> agregarAlbum(
       String nombre_album,
       int lanzamiento_year,

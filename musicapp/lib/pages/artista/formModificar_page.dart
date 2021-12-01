@@ -252,10 +252,17 @@ class _FormModificarPageState extends State<FormModificarPage> {
         child: Text('Actualizar datos del artista'),
         style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
         onPressed: () async {
+          var yearr = DateTime.now().year;
           var errores = [];
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             errores.add('error');
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
+          } else if (yearr < int.parse(yearCtrl.text)) {
+            errores.add('error');
+            textErrorYear = "El año de debut debe ser menor que el año actual";
+          } else if (1300 > int.parse(yearCtrl.text)) {
+            errores.add('error');
+            textErrorYear = "El año no puede ser menor a 1300";
           }
           if (generoCtrl.text == "") {
             errores.add('error');
@@ -270,19 +277,8 @@ class _FormModificarPageState extends State<FormModificarPage> {
                 generoCtrl.text,
                 yearCtrl.text == "" ? 0 : int.parse(yearCtrl.text),
                 biografiaCtrl.text);
-            if (resp['message'] != null) {
-              /*
-              textErrorNombreC = resp['errors']['nombre_civil'] == null
-                  ? ""
-                  : resp['errors']['nombre_civil'].toString();
-              textErrorGenero = resp['errors']['genero'] == null
-                  ? ""
-                  : resp['errors']['genero'].toString();
-              textErrorYear = resp['errors']['debut_year'] == null
-                  ? ""
-                  : resp['errors']['debut_year'].toString();
-              */
-            } else {
+
+            if (resp['message'] == null) {
               textErrorNombre = "";
               textErrorNombreC = "";
               textErrorGenero = "";
@@ -291,6 +287,7 @@ class _FormModificarPageState extends State<FormModificarPage> {
                 showSnackbar(
                     "Se ha actualizado el artista " + nombreArtCtrl.text);
                 Navigator.pop(context);
+                setState(() {});
               }
             }
           }

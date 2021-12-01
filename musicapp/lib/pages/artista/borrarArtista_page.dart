@@ -44,10 +44,12 @@ class _BorrarArtistaState extends State<BorrarArtista> {
               itemBuilder: (context, index) {
                 return ListTile(
                   key: ObjectKey(snapshot.data[index]['nombre_artista']),
-                  leading: Icon(MdiIcons.accountBox),
+                  leading: Icon(MdiIcons.accountRemove),
                   title: Text(snapshot.data[index]['nombre_artista']),
                   subtitle: Text(snapshot.data[index]['genero']),
                   trailing: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(primary: Colors.red.shade400),
                     child: Text('Eliminar'),
                     onPressed: () {
                       confirmDialog(

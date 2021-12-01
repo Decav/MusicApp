@@ -43,12 +43,15 @@ class _VerAlbumPageState extends State<VerAlbumPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: Icon(MdiIcons.accountBox),
+                  leading: Icon(MdiIcons.bookMusic),
                   title: Text(snapshot.data[index]['nombre_album']),
-                  subtitle: Text(
-                      snapshot.data[index]['lanzamiento_year'].toString() +
-                          "   " +
-                          snapshot.data[index]['genero_musical']),
+                  subtitle: Text("Género musical: " +
+                      snapshot.data[index]['genero_musical']),
+                  trailing: Text(
+                    " Año de lanzamiento:  " +
+                        snapshot.data[index]['lanzamiento_year'].toString(),
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
                 );
               });
         },

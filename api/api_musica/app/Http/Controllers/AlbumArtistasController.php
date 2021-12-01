@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlbumArtista;
+use App\Models\Artista;
 use Illuminate\Http\Request;
 
 class AlbumArtistasController extends Controller
@@ -14,7 +15,12 @@ class AlbumArtistasController extends Controller
      */
     public function index()
     {
-        return AlbumArtista::all();
+        
+        $albums = AlbumArtista::all();
+        foreach($albums as $album){
+            $album->load('album');
+        }
+        return $albums;
     }
 
     /**
@@ -38,9 +44,9 @@ class AlbumArtistasController extends Controller
      * @param  \App\Models\AlbumArtista  $albumArtista
      * @return \Illuminate\Http\Response
      */
-    public function show(AlbumArtista $albumArtista)
+    public function show($nombre)
     {
-        return $albumArtista;
+        return AlbumArtista::where("nombre_artista",$nombre)->get();
     }
 
     

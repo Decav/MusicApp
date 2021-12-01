@@ -166,6 +166,7 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
               initialDate: DateTime.now(),
               firstDate: DateTime(1500),
               lastDate: DateTime(2030),
+              locale: Locale('es', 'ES'),
             ).then((fecha) {
               setState(() {
                 fecha_nacimiento = fecha == null ? fecha_nacimiento : fecha;
@@ -222,8 +223,13 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
         child: Text('Ingrese Nuevo Artista'),
         style: ElevatedButton.styleFrom(primary: Color(0xFF651FFF)),
         onPressed: () async {
+          var yearr = DateTime.now().year;
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
+          } else if (yearr < int.parse(yearCtrl.text) - 1) {
+            textErrorYear = "El año de debut debe ser menor que el año actual";
+          } else if (1300 > int.parse(yearCtrl.text)) {
+            textErrorYear = "El año no puede ser menor a 1300";
           } else {
             var resp = await provider.AgregarArtista(
                 nombreArtCtrl.text,
@@ -236,16 +242,16 @@ class _NuevoArtistaPageState extends State<NuevoArtistaPage> {
             if (resp['message'] != null) {
               textErrorNombre = resp['errors']['nombre_artista'] == null
                   ? ""
-                  : resp['errors']['nombre_artista'].toString();
+                  : resp['errors']['nombre_artista'][0].toString();
               textErrorNombreC = resp['errors']['nombre_civil'] == null
                   ? ""
-                  : resp['errors']['nombre_civil'].toString();
+                  : resp['errors']['nombre_civil'][0].toString();
               textErrorGenero = resp['errors']['genero'] == null
                   ? ""
-                  : resp['errors']['genero'].toString();
+                  : resp['errors']['genero'][0].toString();
               textErrorYear = resp['errors']['debut_year'] == null
                   ? ""
-                  : resp['errors']['debut_year'].toString();
+                  : resp['errors']['debut_year'][0].toString();
             } else {
               textErrorNombre = "";
               textErrorNombreC = "";

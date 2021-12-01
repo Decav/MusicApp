@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicapp/pages/album_page.dart';
 import 'package:musicapp/pages/artista_page.dart';
-import 'package:musicapp/pages/cancion_page.dart';
+import 'package:musicapp/pages/albumArtista_page.dart';
 
 class InicioPage extends StatefulWidget {
   InicioPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _InicioPageState extends State<InicioPage> {
     InicioPage(),
     ArtistaPage(),
     AlbumPage(),
-    CancionPage()
+    AlbumxArtistaPage()
   ];
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,41 @@ class _InicioPageState extends State<InicioPage> {
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'Hola',
-              style: TextStyle(fontSize: 20),
+            child: Image(
+              image: AssetImage('assets/imagenes/Imagen_musica.jpg'),
+            ),
+          ),
+          Container(
+            height: 250,
+            padding: EdgeInsets.all(40),
+            margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: Colors.cyan.shade200,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                      child: Icon(MdiIcons.music),
+                      alignment: Alignment.centerLeft),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(3, 7, 3, 7),
+                    child: Text(
+                      "En esta aplicación vas a poder agregar artistas y sus albums. Ademas de poder ver lo que has creado.",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade700,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  Container(
+                    child: Icon(MdiIcons.musicNote),
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -82,9 +113,9 @@ class _InicioPageState extends State<InicioPage> {
               color: Colors.black,
             ),
             ListTile(
-              title: Text('Canciones'),
+              title: Text('Artistas y Albums'),
               leading: Icon(
-                MdiIcons.music,
+                MdiIcons.bookSearchOutline,
                 color: Colors.black,
               ),
               trailing: Icon(MdiIcons.arrowRight),
@@ -101,7 +132,7 @@ class _InicioPageState extends State<InicioPage> {
       InicioPage(),
       ArtistaPage(),
       AlbumPage(),
-      CancionPage()
+      AlbumxArtistaPage()
     ];
 
     final route = MaterialPageRoute(builder: (ctx) {

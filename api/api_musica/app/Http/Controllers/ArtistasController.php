@@ -86,4 +86,5 @@ class ArtistasController extends Controller
         $artista->delete();
         
     }
+
 }

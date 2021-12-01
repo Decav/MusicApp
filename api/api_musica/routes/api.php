@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtistasController;
 use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\AlbumArtistasController;
-use App\Http\Controllers\CancionesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::get('albums/get',[AlbumsController::class , 'index']);
 
-//Route::get('canciones/get',[CancionesController::class , 'index']);
-
+//Route::get('canciones/get',[CancionesController::class , 'index']);   
 Route::apiResource('/artistas',ArtistasController::class);
 Route::apiResource('/albums',AlbumsController::class);
 Route::apiResource('/album_artistas',AlbumArtistasController::class);

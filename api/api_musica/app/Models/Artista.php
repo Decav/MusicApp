@@ -9,7 +9,7 @@ class Artista extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $tabla = 'artistas';
+    protected $table = 'artistas';
     protected $primaryKey = 'nombre_artista';
     public $incrementing = false;
     protected $keyType = 'string';

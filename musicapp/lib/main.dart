@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:musicapp/constants.dart';
 import 'package:musicapp/inicio_page.dart';
 
@@ -11,6 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      supportedLocales: [const Locale('es', 'ES')],
       debugShowCheckedModeBanner: false,
       title: 'Music App',
       theme: ThemeData(

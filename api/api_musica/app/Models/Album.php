@@ -9,9 +9,9 @@ class Album extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $tabla = 'albums';
+    protected $table = 'albums';
 
-    public function albumArtista(){
+    public function albumArtistas(){
         return $this->hasMany(AlbumArtista::class);
     }
 }

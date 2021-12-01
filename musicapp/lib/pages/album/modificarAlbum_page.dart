@@ -45,7 +45,7 @@ class _ModificarAlbumPageState extends State<ModificarAlbumPage> {
               itemBuilder: (context, index) {
                 return ListTile(
                   key: ObjectKey(snapshot.data[index]['id']),
-                  leading: Icon(MdiIcons.accountBox),
+                  leading: Icon(MdiIcons.bookEdit),
                   title: Text(snapshot.data[index]['nombre_album']),
                   subtitle: Text(snapshot.data[index]['genero_musical']),
                   trailing: ElevatedButton(

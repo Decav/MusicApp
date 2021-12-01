@@ -172,8 +172,14 @@ class _FormUpdateAlbumPageState extends State<FormUpdateAlbumPage> {
         child: Text('Actualice Album'),
         style: ElevatedButton.styleFrom(primary: KPrimaryColor),
         onPressed: () async {
+          var yearr = DateTime.now().year;
           if (yearCtrl.text == "" || yearCtrl.text == "0") {
             textErrorYear = "Este valor no puede ser ni 0 ni vacio";
+          } else if (yearr < int.parse(yearCtrl.text) - 1) {
+            textErrorYear =
+                "El año de lanzamiento debe ser menor que el año actual";
+          } else if (1300 > int.parse(yearCtrl.text)) {
+            textErrorYear = "El año no puede ser menor a 1300";
           } else {
             var resp = await provider.actualizarAlbum(
                 id_album,
@@ -196,11 +202,30 @@ class _FormUpdateAlbumPageState extends State<FormUpdateAlbumPage> {
               textErrorNombreGrupo = "";
               textErrorGenero = "";
               textErrorYear = "";
+              if (resp.length != 0) {
+                showSnackbar('Se ha actualizado con exito el album ' +
+                    nombreAlbumCtrl.text);
+                Navigator.pop(context);
+              }
             }
           }
 
           setState(() {});
         },
+      ),
+    );
+  }
+
+  void showSnackbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          mensaje,
+          style: TextStyle(color: Colors.white),
+        ),
+        //duration: Duration(seconds: 3),
+        backgroundColor: KPrimaryColor,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

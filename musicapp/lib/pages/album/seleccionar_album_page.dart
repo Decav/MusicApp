@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:musicapp/constants.dart';
+import 'package:musicapp/provider/album_artista_provider.dart';
 import 'package:musicapp/provider/albumes_provider.dart';
 
 class SeleccionarAlbumPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class SeleccionarAlbumPage extends StatefulWidget {
 
 class _SeleccionarAlbumPageState extends State<SeleccionarAlbumPage> {
   AlbumsProvider provider = AlbumsProvider();
+  AlbumArtistaProvider albArtista_provider = AlbumArtistaProvider();
   String nombre_artista = "";
   @override
   void initState() {
@@ -51,18 +53,45 @@ class _SeleccionarAlbumPageState extends State<SeleccionarAlbumPage> {
                     ),
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Icon(MdiIcons.accountBox),
-                    title: Text(snapshot.data[index]['nombre_album']),
-                    subtitle: Text(
-                        snapshot.data[index]['lanzamiento_year'].toString() +
-                            "   " +
-                            snapshot.data[index]['genero_musical']),
-                    onTap: () async {
-                      var resp = await provider.crearRelacion(
-                          nombre_artista, snapshot.data[index]['id']);
-                      Navigator.pop(context);
-                    },
+                  return Container(
+                    child: FutureBuilder(
+                      future: albArtista_provider.getAlbumArtistas(),
+                      builder: (context, AsyncSnapshot snapshot2) {
+                        if (!snapshot2.hasData) {
+                          return Center(
+                            child: Container(
+                              padding:
+                                  EdgeInsets.only(top: 10, right: 50, left: 50),
+                              child: LinearProgressIndicator(),
+                            ),
+                          );
+                        }
+                        bool existe = false;
+                        for (int i = 0; i < snapshot2.data.length; i++) {
+                          if (snapshot.data[index]['id'] ==
+                                  snapshot2.data[i]['cod_album'] &&
+                              nombre_artista ==
+                                  snapshot2.data[i]['nombre_artista']) {
+                            existe = true;
+                          }
+                        }
+                        return ListTile(
+                          enabled: !existe,
+                          leading: Icon(MdiIcons.bookMusic),
+                          title: Text(snapshot.data[index]['nombre_album']),
+                          subtitle: Text(snapshot.data[index]
+                                      ['lanzamiento_year']
+                                  .toString() +
+                              "   " +
+                              snapshot.data[index]['genero_musical']),
+                          onTap: () async {
+                            var resp = await provider.crearRelacion(
+                                nombre_artista, snapshot.data[index]['id']);
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    ),
                   );
                 });
           }

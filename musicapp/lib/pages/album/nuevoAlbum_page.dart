@@ -48,7 +48,7 @@ class _NuevoAlbumPageState extends State<NuevoAlbumPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: Icon(MdiIcons.accountBox),
+                  leading: Icon(MdiIcons.accountMusic),
                   title: Text(snapshot.data[index]['nombre_artista']),
                   trailing: ElevatedButton(
                     child: Text('Seleccione el artista'),
